@@ -6,9 +6,9 @@
 ##2、版本
 [cndocker/kcptun-socks5-ss-server:latest](https://hub.docker.com/r/cndocker/kcptun-socks5-ss-server/)
 
-[kcptun 20160912](https://github.com/xtaci/kcptun/tree/v20160912)
+[kcptun 20161111](https://github.com/xtaci/kcptun/releases/latest)
 
-[shadowsocks-libev 2.5.2](https://github.com/shadowsocks/shadowsocks-libev/tree/v2.5.2)
+[shadowsocks-libev 2.5.6](https://github.com/shadowsocks/shadowsocks-libev/releases/latest)
 ##3、问题
 如何安装Docker
 
@@ -41,6 +41,10 @@ docker pull cndocker/kcptun-socks5-ss-server:latest
 从我们的项目中下载docker images后导入，镜像下载地址：
 ```bash
 wget --no-check-certificate https://github.com/cndocker/kcptun-socks5-ss-server-docker/raw/master/images/docker-kcptun-socks5-ss-server.tar
+```
+镜像导入命令
+```bash
+docker load < docker-kcptun-socks5-ss-server.tar
 ```
 
 # 三、使用

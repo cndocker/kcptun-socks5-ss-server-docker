@@ -2,21 +2,28 @@
 FROM alpine:latest
 MAINTAINER cnDocker
 
-ENV SS_URL=https://github.com/shadowsocks/shadowsocks-libev/archive/v2.5.2.tar.gz \
-    SS_DIR=shadowsocks-libev-2.5.2 \
+ENV SS_URL=https://github.com/shadowsocks/shadowsocks-libev/archive/v2.5.6.tar.gz \
+    SS_DIR=shadowsocks-libev-2.5.6 \
+    libsodium_latest="https://github.com/jedisct1/libsodium/releases/download/1.0.11/libsodium-1.0.11.tar.gz" \
     CONF_DIR="/usr/local/conf" \
     kcptun_latest="https://github.com/xtaci/kcptun/releases/latest" \
     KCPTUN_DIR=/usr/local/kcp-server
 
 RUN set -ex && \
     apk add --no-cache pcre bash && \
-    apk add --no-cache  --virtual TMP autoconf build-base wget curl libtool linux-headers openssl-dev pcre-dev && \
+    apk add --no-cache  --virtual TMP autoconf build-base wget curl tar libtool linux-headers openssl-dev pcre-dev && \
     curl -sSL $SS_URL | tar xz && \
     cd $SS_DIR && \
     ./configure --disable-documentation && \
     make install && \
     cd .. && \
     rm -rf $SS_DIR && \
+    mkdir /tmp/libsodium && \
+    curl -Lk ${libsodium_latest}|tar xz -C /tmp/libsodium --strip-components=1 && \
+    cd /tmp/libsodium && \
+    ./configure && \
+    make -j $(awk '/processor/{i++}END{print i}' /proc/cpuinfo) && \
+    make install && \
     [ ! -d ${CONF_DIR} ] && mkdir -p ${CONF_DIR} && \
     [ ! -d ${KCPTUN_DIR} ] && mkdir -p ${KCPTUN_DIR} && cd ${KCPTUN_DIR} && \
     wget https://raw.githubusercontent.com/clangcn/kcp-server/master/socks5_latest/socks5_linux_amd64 -O ${KCPTUN_DIR}/socks5 && \
