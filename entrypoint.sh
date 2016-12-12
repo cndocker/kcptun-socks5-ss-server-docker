@@ -30,6 +30,9 @@ KCPTUN_MODE=${KCPTUN_MODE:-fast2}                             #"mode": "fast2",
 KCPTUN_MTU=${KCPTUN_MTU:-1350}                                #"mtu": 1350,
 KCPTUN_SNDWND=${KCPTUN_SNDWND:-1024}                          #"sndwnd": 1024,
 KCPTUN_RCVWND=${KCPTUN_RCVWND:-1024}                          #"rcvwnd": 1024,
+KCPTUN_DATASHARD=${KCPTUN_DATASHARD:-10}                      #"datashard": 10,
+KCPTUN_PARITYSHARD=${KCPTUN_PARITYSHARD:-3}                   #"parityshard": 3,
+KCPTUN_DSCP=${KCPTUN_DSCP:-0}                                 #"dscp": 0,
 KCPTUN_NOCOMP=${KCPTUN_NOCOMP:-false}                         #"nocomp": false
 
 [ ! -f ${SS_CONF} ] && cat > ${SS_CONF}<<-EOF
@@ -69,6 +72,9 @@ fi
     "mtu": ${KCPTUN_MTU},
     "sndwnd": ${KCPTUN_SNDWND},
     "rcvwnd": ${KCPTUN_RCVWND},
+    "datashard": ${KCPTUN_DATASHARD},
+    "parityshard": ${KCPTUN_PARITYSHARD},
+    "dscp": ${KCPTUN_DSCP},
     "nocomp": false
 }
 EOF
@@ -82,6 +88,9 @@ EOF
     "mtu": ${KCPTUN_MTU},
     "sndwnd": ${KCPTUN_SNDWND},
     "rcvwnd": ${KCPTUN_RCVWND},
+    "datashard": ${KCPTUN_DATASHARD},
+    "parityshard": ${KCPTUN_PARITYSHARD},
+    "dscp": ${KCPTUN_DSCP},
     "nocomp": false
 }
 EOF
@@ -115,7 +124,7 @@ if [[ "${RUNENV}" =~ ^[Kk][Cc][Pp][Tt][Uu][Nn][Ss][Oo][Cc][Kk][Ss]-[Kk][Cc][Pp][
     netstat -ntlup | grep kcp-server
     echo "+---------------------------------------------------------+"
     echo "KCP Port     : ${KCPTUN_SS_LISTEN}"
-    echo "KCP Parameter: --crypt ${KCPTUN_CRYPT} --key ${KCPTUN_KEY} --mtu ${KCPTUN_MTU} --sndwnd ${KCPTUN_RCVWND} --rcvwnd ${KCPTUN_SNDWND} --mode ${KCPTUN_MODE}${kcptun_nocomp_flag}"
+    echo "KCP Parameter: --crypt ${KCPTUN_CRYPT} --key ${KCPTUN_KEY} --mtu ${KCPTUN_MTU} --sndwnd ${KCPTUN_RCVWND} --rcvwnd ${KCPTUN_SNDWND} --datashard ${KCPTUN_DATASHARD} --parityshard ${KCPTUN_PARITYSHARD} --dscp ${KCPTUN_DSCP} --mode ${KCPTUN_MODE}${kcptun_nocomp_flag}"
     echo "+---------------------------------------------------------+"
     echo "Starting socks5..."
     nohup socks5 127.0.0.1:${KCPTUN_SOCKS5_PORT}  >/dev/null 2>&1 &
@@ -146,7 +155,7 @@ elif [[ "${RUNENV}" =~ ^[Kk][Cc][Pp][Tt][Uu][Nn][Ss][Ss]$ ]]; then
     kcp-server -v
     echo "+---------------------------------------------------------+"
     echo "KCP Port     : ${KCPTUN_SS_LISTEN}"
-    echo "KCP Parameter: --crypt ${KCPTUN_CRYPT} --key ${KCPTUN_KEY} --mtu ${KCPTUN_MTU} --sndwnd ${KCPTUN_RCVWND} --rcvwnd ${KCPTUN_SNDWND} --mode ${KCPTUN_MODE}${kcptun_nocomp_flag}"
+    echo "KCP Parameter: --crypt ${KCPTUN_CRYPT} --key ${KCPTUN_KEY} --mtu ${KCPTUN_MTU} --sndwnd ${KCPTUN_RCVWND} --rcvwnd ${KCPTUN_SNDWND} --datashard ${KCPTUN_DATASHARD} --parityshard ${KCPTUN_PARITYSHARD} --dscp ${KCPTUN_DSCP} --mode ${KCPTUN_MODE}${kcptun_nocomp_flag}"
     echo "+---------------------------------------------------------+"
     exec "kcp-server" -c ${KCPTUN_SS_CONF}
 # ss
