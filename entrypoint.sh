@@ -89,6 +89,7 @@ EOF
 kcptun_nocomp_flag=""
 if [[ "${KCPTUN_NOCOMP}" =~ ^[Tt][Rr][Uu][Ee]|[Yy][Ee][Ss]|[Yy]|1|[Ee][Nn][Aa][Bb][Ll][Ee]$ ]]; then
     sed -ri "s/(\"nocomp\":).*/\1 true/" ${KCPTUN_CONF}
+    sed -ri "s/(\"nocomp\":).*/\1 true/" ${KCPTUN_SS_CONF}
     kcptun_nocomp_flag=" --nocomp"
 fi
 
