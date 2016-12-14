@@ -99,7 +99,10 @@ cndocker/kcptun-socks5-ss-server:latest
 | KCPTUN_MTU         | 1350                 | MTU值，建议范围：900~1400              |
 | KCPTUN_SNDWND      | 1024                 | 服务器端发送参数，对应客户端rcvwnd       |
 | KCPTUN_RCVWND      | 1024                 | 服务器端接收参数，对应客户端sndwnd        |
-| KCPTUN_NOCOMP      | false                | 是否开启压缩，值为false时开启压缩，为true时禁用压缩。 |
+| KCPTUN_DATASHARD   | 10                   | 数据块，需与客户端保持一致              |
+| KCPTUN_PARITYSHARD | 3                    | 校验块，需与客户端保持一致          |
+| KCPTUN_DSCP        | 0                    | 数据包优先级                          |
+| KCPTUN_NOCOMP      | false                | 是否开启压缩，值为false时开启压缩，为true时禁用压缩，需与客户端保持一致。 |
 ---
 ###备注1：运行模式
     * kcptunsocks-kcptunss：同时提供kcptun & socks5（路由器kcptun插件）与kcptun & ss(手机ss客户端)服务，kcptun & socks5服务的对应端口是“KCPTUN_LISTEN”，kcptun & ss服务的SS对应端口“SS_SERVER_PORT”、kcp端口对应“KCPTUN_SS_LISTEN”。
